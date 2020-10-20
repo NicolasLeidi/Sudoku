@@ -1,7 +1,7 @@
 package logica;
-import java.io.File; 
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Scanner;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -56,10 +56,11 @@ public class Logica {
 	public void inicializar() {
 		try {
 			Random r = new Random();
-			Scanner scanner = new Scanner(new File(archivo));
+			InputStream in = Logica.class.getClassLoader().getResourceAsStream("sudoku/" + archivo);
+			Scanner scn = new Scanner(in);
 			for(int i = 0; i < 9; i++)
 				for(int j = 0; j < 9; j++) {
-					tablero[i][j].setValor(scanner.nextInt());
+					tablero[i][j].setValor(scn.nextInt());
 				}
 			if(checkear(progreso.PAUSA)) {
 				estado = progreso.ENCURSO;
@@ -78,12 +79,13 @@ public class Logica {
 				estado = progreso.PAUSA;
 				sudokuIncorrecto("Solución base inválida.");
 			}
-		} catch (FileNotFoundException e) {
-			estado = progreso.PAUSA;
-			sudokuIncorrecto("Archivo no encontrado.");
+			scn.close();
 		} catch (NoSuchElementException e) {
 			estado = progreso.PAUSA;
 			sudokuIncorrecto("Archivo termina abruptamente.");			
+		} catch (NumberFormatException e) {
+			estado = progreso.PAUSA;
+			sudokuIncorrecto("Archivo no encontrado.");	
 		}
 	}
 	

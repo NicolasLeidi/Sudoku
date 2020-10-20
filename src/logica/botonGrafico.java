@@ -1,7 +1,10 @@
 package logica;
 import java.awt.Color;
 import java.awt.Image;
+import java.io.IOException;
+import java.io.InputStream;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -37,7 +40,12 @@ public class botonGrafico {
 		if(n == 0)
 			imagen = null;
 		else{
-			imagen = new ImageIcon("src\\img\\" + n + ".png");
+			InputStream in = botonGrafico.class.getClassLoader().getResourceAsStream("img/" + n + ".png");
+			try {
+				imagen = new ImageIcon(ImageIO.read(in));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		actualizar();
 	}
