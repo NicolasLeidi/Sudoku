@@ -17,7 +17,7 @@ public class tiempoGrafico {
 		timer = new Timer(1000,new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				tiempo++;
-				horas.setText(tiempo / 360 < 10? "0" + tiempo/360 : "" + tiempo / 360);
+				horas.setText(tiempo / 3600 < 10? "0" + tiempo/3600 : "" + tiempo / 3600);
 				minutos.setText((tiempo / 60) % 60 < 10 ? "0" + (tiempo / 60) % 60 : "" + (tiempo / 60) % 60);
 				segundos.setText(tiempo % 60 < 10? "0" + tiempo % 60 : "" + tiempo % 60);
 		    }
