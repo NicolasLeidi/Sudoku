@@ -57,17 +57,18 @@ public class Ventana extends JFrame {
 		contentPane.add(panel);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(623, 180, 122, 31);
+		panel_1.setBounds(599, 180, 163, 43);
 		contentPane.add(panel_1);
+		panel_1.setLayout(new GridLayout(0, 6, 0, 0));
 		
-		JLabel horas = new JLabel("00");
-		panel_1.add(horas);
-		
-		JLabel minutos = new JLabel("00");
-		panel_1.add(minutos);
-		
-		JLabel segundos = new JLabel("00");
-		panel_1.add(segundos);
+		JLabel[] lblTiempo = new JLabel[6];
+		for(int i = 0; i < 6; i++) {
+			lblTiempo[i] = new JLabel();
+			lblTiempo[i].setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, null, null, null));
+			lblTiempo[i].setOpaque(true);
+			lblTiempo[i].setBackground(new Color(200, 200, 200));
+			panel_1.add(lblTiempo[i]);
+		}
 		
 		JButton[][] btnCelda = new JButton[9][9];
 		JPanel[][] subPanel = new JPanel[3][3];
@@ -79,8 +80,8 @@ public class Ventana extends JFrame {
 			}
 		
 		Logica tablero = new Logica();
-		tiempoGrafico temporizador = new tiempoGrafico(horas, minutos, segundos);
-		eventoGrafico evento = new eventoGrafico(panel, temporizador);
+		new tiempoGrafico(lblTiempo, tablero);
+		eventoGrafico evento = new eventoGrafico(panel);
 		tablero.setEventoGrafico(evento);
 		for(int i = 0; i < 9; i++)
 			for(int j = 0; j < 9; j++) {

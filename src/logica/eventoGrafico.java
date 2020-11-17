@@ -5,19 +5,12 @@ import javax.swing.JPanel;
 public class eventoGrafico {
 
 	private JPanel panel;
-	private tiempoGrafico tiempo;
 	
-	public eventoGrafico(JPanel panel, tiempoGrafico tiempo) {
+	public eventoGrafico(JPanel panel) {
 		this.panel = panel;
-		this.tiempo = tiempo;
-	}
-	
-	public void iniciar() {
-		tiempo.start();
 	}
 	
 	public void ganar() {
-		tiempo.stop();
 		JOptionPane.showMessageDialog(panel, "Victory!");
 	}
 	

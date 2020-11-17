@@ -1,5 +1,7 @@
 package logica;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -8,6 +10,9 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+
+import javax.swing.Timer;
+
 import java.util.NoSuchElementException;
 import java.util.Random;
 
@@ -21,7 +26,9 @@ public class Logica {
 	private enum progreso {PAUSA, ENCURSO, FINALIZADO};
 	private progreso estado;
 	private eventoGrafico evento;
+	private Timer timer;
 	private static Logger logger;
+	private int tiempo;
 	
 	public Logica() {
 		tablero = new Celda[9][9];
@@ -47,6 +54,15 @@ public class Logica {
 			for(Handler h : rootLogger.getHandlers())
 				h.setLevel(Level.OFF);
 		}
+		timer = new Timer(1000,new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				tiempo++;
+		    }
+	    });
+	}
+	
+	public String getTiempoTranscurrido() {
+		return String.format("%02d%02d%02d", tiempo / 3600, (tiempo / 60) % 60, tiempo % 60); //HH:MM:SS
 	}
 	
 	public void setEventoGrafico(eventoGrafico evento) {
@@ -73,7 +89,8 @@ public class Logica {
 							tablero[i][j].setHabilitado(true);
 						}
 					}
-				evento.iniciar();
+				tiempo = 0;
+				timer.start();
 			}
 			else {
 				estado = progreso.PAUSA;
@@ -109,6 +126,7 @@ public class Logica {
 			for(int j = 0; j < 3; j++)
 				result = checkearSub(i * 3, j * 3)? result : false;
 		if(result && estado == progreso.FINALIZADO) {
+			timer.stop();
 			evento.ganar();
 			estado = progreso.PAUSA;
 		}
@@ -204,5 +222,14 @@ public class Logica {
 	
 	public boolean enCurso() {
 		return estado == progreso.ENCURSO;
+	}
+	
+	public void start() {
+		tiempo = 0;
+		timer.start();
+	}
+	
+	public void stop() {
+		timer.stop();
 	}
 }
